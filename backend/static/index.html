@@ -1,0 +1,28 @@
+<!-- backend/static/index.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Human LLM</title>
+  </head>
+  <body>
+    <h1>Hello from Human LLM</h1>
+    <p>This will become the homepage listing all sessions.</p>
+
+    <ul id="session-list"></ul>
+
+    <script>
+      fetch('/api/sessions')
+        .then(res => res.json())
+        .then(sessions => {
+          const list = document.getElementById('session-list');
+          sessions.forEach(session => {
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="/session/${session.name}">${session.name}</a><br><small>${session.players} players</small>`;
+            list.appendChild(li);
+          });
+        });
+    </script>
+    
+  </body>
+</html>
