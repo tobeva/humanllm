@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
-	"humanllm/backend/handlers"
+	"github.com/tobeva/humanllm/handlers"
 )
 
 func main() {
@@ -12,7 +12,7 @@ func main() {
 
 	log.Println("Server running at http://localhost:8080")
 	
-	http.HandleFunc("/session/", handlers.SessionHandler)
+	http.HandleFunc("/api/sessions", handlers.SessionsHandler)
 
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {

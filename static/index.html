@@ -10,6 +10,7 @@
     <p>This will become the homepage listing all sessions.</p>
 
     <ul id="session-list"></ul>
+    <button id="new-session-btn">New Session</button>
 
     <script>
       fetch('/api/sessions')
@@ -22,6 +23,10 @@
             list.appendChild(li);
           });
         });
+
+      document.getElementById('new-session-btn').addEventListener('click', () => {
+        fetch('/api/sessions', { method: 'POST' }).then(() => location.reload());
+      });
     </script>
     
   </body>
