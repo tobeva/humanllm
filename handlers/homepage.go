@@ -21,7 +21,7 @@ type Session struct {
 }
 
 // Handle /api/sessions
-func SessionsHandler(w http.ResponseWriter, r *http.Request) {
+func HomepageHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(sessions)

@@ -13,7 +13,7 @@
     <button id="new-session-btn">New Session</button>
 
     <script>
-      fetch('/api/sessions')
+      fetch('/api/homepage')
         .then(res => res.json())
         .then(sessions => {
           const list = document.getElementById('session-list');

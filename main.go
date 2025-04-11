@@ -4,17 +4,21 @@ import (
 	"log"
 	"net/http"
 	"github.com/tobeva/humanllm/handlers"
+	"github.com/gorilla/mux"
 )
 
 func main() {
+	router := mux.NewRouter()
+
 	fs := http.FileServer(http.Dir("static"))
-	http.Handle("/", loggingMiddleware(fs))
+	router.PathPrefix("/static/").Handler(loggingMiddleware(fs))
 
 	log.Println("Server running at http://localhost:8080")
 	
-	http.HandleFunc("/api/sessions", handlers.SessionsHandler)
+	router.HandleFunc("/api/homepage", handlers.HomepageHandler)
+	router.HandleFunc("/session/{name}", handlers.SessionHandler).Methods("GET")
 
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", router)
 	if err != nil {
 		log.Fatalf("Server failed: %v", err)
 	}

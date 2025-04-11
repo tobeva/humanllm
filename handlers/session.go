@@ -5,14 +5,16 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"github.com/gorilla/mux"
 )
 
-// SessionHandler handles requests to /session/{sessionName}
+// SessionHandler handles requests to /session/{name}
 func SessionHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Handling /session/ request")
-	sessionName := strings.TrimPrefix(r.URL.Path, "/session/")
-	if sessionName == "" || strings.Contains(sessionName, "/") {
-		log.Println("404 Not Found: Invalid session name")
+	vars := mux.Vars(r)
+	sessionName := vars["name"]
+	if sessionName == "" {
+		log.Println("404 Not Found: Missing session name")
 		http.NotFound(w, r)
 		return
 	}
