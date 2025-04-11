@@ -11,13 +11,16 @@ func main() {
 	router := mux.NewRouter()
 
 	fs := http.FileServer(http.Dir("static"))
-	router.PathPrefix("/static/").Handler(loggingMiddleware(fs))
+	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
 
-	log.Println("Server running at http://localhost:8080")
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "static/index.html")
+	})
 	
 	router.HandleFunc("/api/homepage", handlers.HomepageHandler)
 	router.HandleFunc("/session/{name}", handlers.SessionHandler).Methods("GET")
 
+	log.Println("Server running at http://localhost:8080")
 	err := http.ListenAndServe(":8080", router)
 	if err != nil {
 		log.Fatalf("Server failed: %v", err)
